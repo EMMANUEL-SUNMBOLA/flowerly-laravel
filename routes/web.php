@@ -22,6 +22,7 @@ Route::get('/create', function(){
     return view('create');
 });
 Route::POST('/create', [App\Http\Controllers\ProductController::class, 'store']);
+Route::POST('/add/$id', [App\Http\Controllers\ProductController::class, 'store']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

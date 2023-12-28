@@ -26,6 +26,7 @@
             width: 20rem;
             // border: 1px solid red;
             display: flex;
+            height: 50rem;
             align-items: center;
             justify-content: center;
             flex-direction: column;
@@ -34,6 +35,25 @@
             100px 100px 80px rgba(0, 0, 0, 0.07);
             text-align: center;
             background-color: #ffffff;
+            img{
+                width: 20rem;
+                height: 30rem;
+            }
+            h4{
+                font-family: monospace;
+                font-size: 1.5rem;
+                color: hotpink;
+                text-transform: uppercase;
+            }
+            p{
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 20px;
+            }
+            h6{
+                color: red;
+                font-family: monospace;
+                font-size: 15px;
+            }
             button{
                 width: 10rem;
                 height: 3rem;
@@ -43,7 +63,7 @@
                 text-transform: uppercase;
                 font-size: 1rem;
                 border-radius: 1rem;
-                margin-top: 2rem;
+                margin-top: 10px;
                 transition: all .5s ease-in-out;
                 &:hover{
                     background-color: darken($color: #1a2037, $amount: 10);

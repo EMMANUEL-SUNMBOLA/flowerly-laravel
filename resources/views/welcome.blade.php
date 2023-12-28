@@ -13,8 +13,10 @@
                         <img src="{{ $product->url }}" alt="">
                         <h4>{{ $product->name }}</h4>
                         <p>{{ $product->details }}</p>
-                        <p>{{ $product->instock }}</p>
-                        <button type="button">${{ $product->price }}</button>
+                        <h6>{{ $product->instock }} Pieces left</h6>
+                        <form action="/add/{{ $product->id }}" method="POST">
+                            <button type="button">${{ $product->price }}</button>
+                        </form>
                     </div>
                 @endforeach
             </div>
