@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/', [App\Http\Controllers\ProductController::class, 'index']);
+Route::get('/create', function(){
+    return view('create');
+});
+Route::POST('/create', [App\Http\Controllers\ProductController::class, 'store']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
