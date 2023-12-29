@@ -2,7 +2,7 @@
     @section('content')
         <main>
             <h1>Welcome to Flowerly</h1>
-            <button id="buyBtn">{{ session('msg') }}</button>
+            <button id="buyBtn">Buy <i class="fa-solid fa-arrow-right"></i></button>
         </main>
 
         <section class="products">
@@ -15,11 +15,11 @@
                         <p>{{ $product->details }}</p>
                         <h6>{{ $product->instock }} Pieces left</h6>
                         <form action="/add/{{ $product->id }}" method="POST">
-                            <button type="button">${{ $product->price }}</button>
+                            @csrf
+                            <button>${{ $product->price }}</button>
                         </form>
                     </div>
                 @endforeach
             </div>
         </section>
     @endsection
-

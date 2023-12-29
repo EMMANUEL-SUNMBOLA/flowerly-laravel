@@ -20,9 +20,10 @@ Route::get('/', function () {
 Route::get('/', [App\Http\Controllers\ProductController::class, 'index']);
 Route::get('/create', function(){
     return view('create');
-});
-Route::POST('/create', [App\Http\Controllers\ProductController::class, 'store']);
-Route::POST('/add/$id', [App\Http\Controllers\ProductController::class, 'store']);
+})->middleware(['auth', 'verified']);
+Route::POST('/create', [App\Http\Controllers\ProductController::class, 'store'])->middleware(['auth', 'verified']);
+
+Route::post('/add/{id}', [App\Http\Controllers\CartController::class, 'create'])->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
