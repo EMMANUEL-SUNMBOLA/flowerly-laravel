@@ -7,6 +7,14 @@
 //     }
 // })
 
+document.querySelector('#triggerDown').addEventListener("click", ()=>{
+  if(document.querySelector('#down').style.display == 'flex'){
+    document.querySelector('#down').style.display = 'none';
+  }else{
+    document.querySelector('#down').style.display = 'flex';
+  }
+})
+
 let textContainer = document.querySelector("h1")
   // Pause the animation on load
   textContainer.style.animationPlayState = "paused";

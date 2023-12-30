@@ -25,7 +25,16 @@
                         <a href="" class="nav-link">Pricing</a>
                         <a href="" class="nav-link">Contact Us</a>
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="nav-link">Cart</a>
+                            <a href="{{ url('/cart') }}" class="nav-link">Cart</a>
+                            <div class="dropdown">
+                                <a class="nav-link" id="triggerDown">{{ strtoupper(Auth::user()->name) }} <i class="fa-solid fa-chevron-down"></i></a>
+                                <div class="content" id="down">
+                                    <p id="Cart"><a class="" href="{{ url('/dashboard') }}">Profile</a></p>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        <p onclick="event.preventDefault();                     this.closest('form').submit();"><a href="route('logout')" class="">Log Out</a></p>
+                                    </form>
+                                </div>
+                            </div>
                         @else
                             <a href="{{ route('login') }}" class="nav-link">Log in</a>
     

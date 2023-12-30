@@ -14,20 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function(){return view('welcome');});
+
 Route::get('/', [App\Http\Controllers\ProductController::class, 'index']);
-Route::get('/create', function(){
-    return view('create');
-})->middleware(['auth', 'verified']);
+
+Route::get('/create', function(){return view('create');})->middleware(['auth', 'verified']);
+
 Route::POST('/create', [App\Http\Controllers\ProductController::class, 'store'])->middleware(['auth', 'verified']);
+
+Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->middleware(['auth', 'verified']);
 
 Route::post('/add/{id}', [App\Http\Controllers\CartController::class, 'create'])->middleware(['auth', 'verified']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function(){return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
