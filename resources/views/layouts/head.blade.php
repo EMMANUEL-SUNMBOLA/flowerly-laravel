@@ -25,7 +25,7 @@
                         <a href="" class="nav-link">Pricing</a>
                         <a href="" class="nav-link">Contact Us</a>
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="nav-link">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="nav-link">Cart</a>
                         @else
                             <a href="{{ route('login') }}" class="nav-link">Log in</a>
     

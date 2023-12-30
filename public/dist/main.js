@@ -15,3 +15,7 @@ let textContainer = document.querySelector("h1")
   setTimeout(() => {
     textContainer.style.animationPlayState = "running";
   }, 1); // Adjust the delay as needed
+
+  document.querySelector('#buyBtn').addEventListener("click", ()=>{
+    window.location.href = "#products";
+  })

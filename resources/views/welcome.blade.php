@@ -5,7 +5,7 @@
             <button id="buyBtn">Buy <i class="fa-solid fa-arrow-right"></i></button>
         </main>
 
-        <section class="products">
+        <section class="products" id="products">
             <h1>our products</h1>
             <div class="container">
                 @foreach($products as $product)

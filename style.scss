@@ -5,6 +5,7 @@
     margin: 0;
     outline: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
     // outline: 1px solid red;
 }
 body{
@@ -136,4 +137,24 @@ main{
 //     100% {
 //       opacity: 1;
 //     }
-//   }
+//   }\
+
+@media screen and (max-width: 767px) {
+    main{
+        h1{
+            font-size: 3rem;
+        }
+    }
+    .products{
+        .container{
+            align-self: center;
+            grid-template-columns: repeat(2, 1fr);
+            div{
+                width: 17rem;
+                img{
+                    width: 17rem;
+                }
+            }
+        }
+    }
+}
