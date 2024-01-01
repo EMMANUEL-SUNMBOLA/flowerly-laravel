@@ -19,6 +19,11 @@
                                 out of stock
                             @endif
                         </p>
+                        <div class="more">
+                            <button><i class="fa-solid fa-add"></i></button>
+                            <input type="text">
+                            <button><i class="fa-solid fa-minus"></i></button>
+                        </div>
                     </div>
                 </div>
             @endforeach
