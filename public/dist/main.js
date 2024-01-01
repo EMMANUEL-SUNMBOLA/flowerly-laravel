@@ -24,6 +24,26 @@ let textContainer = document.querySelector("h1")
     textContainer.style.animationPlayState = "running";
   }, 1); // Adjust the delay as needed
 
-  document.querySelector('#buyBtn').addEventListener("click", ()=>{
-    window.location.href = "#products";
-  })
+  let inpt = document.querySelector('#inpt');
+
+  document.querySelector('.addBtn').addEventListener("click", () => {
+      // Convert the input value to a number
+      let inputValue = parseInt(inpt.value);
+  
+      // Check if the parsed value is a number and greater than 0
+      if (!isNaN(inputValue)) {
+          // Increment the value
+          inpt.value = inputValue + 1;
+      }
+  });
+  document.querySelector('.subBtn').addEventListener("click", () => {
+    // Convert the input value to a number
+    let inputValue = parseInt(inpt.value);
+
+    // Check if the parsed value is a number and greater than 0
+    if (!isNaN(inputValue) && inputValue > 0) {
+        // Decrement the value
+        inpt.value = inputValue - 1;
+    }
+});
+  

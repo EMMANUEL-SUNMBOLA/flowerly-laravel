@@ -1,6 +1,14 @@
 @extends('layouts.head')
 @section('content')
-    <div class="cart">
+<div class="cart">
+        <div class="total">
+            <h1>cart summary</h1>
+            <h3>Subtotal {{ $price }}</h4>
+            <p>Delivery fees not included yet</p>
+            <form action="">
+                <button>CHECKOUT (<i class="fa-solid fa-naira-sign"> {{ $price }} </i>)</button>
+            </form>
+        </div>
         <div class="container">
             @foreach($carts as $cart)
                 <div>
@@ -20,13 +28,16 @@
                             @endif
                         </p>
                         <div class="more">
-                            <button><i class="fa-solid fa-add"></i></button>
-                            <input type="text">
-                            <button><i class="fa-solid fa-minus"></i></button>
+                            <button class="addBtn"><i class="fa-solid fa-add"></i></button>
+                            <input type="text" id="inpt">
+                            <button class="subBtn"><i class="fa-solid fa-minus"></i></button>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
+    <script>
+
+    </script>
 @endsection

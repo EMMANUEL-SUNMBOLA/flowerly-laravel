@@ -12,7 +12,11 @@ class CartController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        return view('cart', ["carts" => $user->cart]);
+        $price = 0;
+        foreach($user->cart as $cart){
+            $price += $cart['price'];
+        }
+        return view('cart', ["carts" => $user->cart, "price" => $price]);
     }
     //
     public function create($id){

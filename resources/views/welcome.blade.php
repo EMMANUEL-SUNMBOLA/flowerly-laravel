@@ -22,4 +22,8 @@
                 @endforeach
             </div>
         </section>
+        <script>
+        document.querySelector('#buyBtn').addEventListener("click", ()=>{ window.location.href = "#products";
+        })
+        </script>
     @endsection
