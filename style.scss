@@ -28,6 +28,12 @@ nav{
                 &:hover{
                     color: variables.$black;
                 }
+                &:last-child{
+                    &:hover{
+                        // color: darken(variables.$white, $amount: 3);
+                        color: red;
+                    }
+                }
             }
         }
         .dropdown{
@@ -47,7 +53,7 @@ nav{
                 width: 10rem;
                 height: 6.5rem;
                 top: 3rem;
-                background-color: darken($color: #f8e3e8, $amount: 4);
+                background-color: darken($color: #f8e3e8, $amount: 4%);
                 p{
                     text-align: center;
                     width: 100%;
@@ -116,10 +122,10 @@ main{
         margin-top: 2rem;
         transition: all .5s ease-in-out;
         &:hover{
-            background-color: darken($color: #1a2037, $amount: 10);
+            background-color: darken($color: #1a2037, $amount: 10%);
         }
         &:focus{
-            background-color: darken($color: #1a2037, $amount: 20);
+            background-color: darken($color: #1a2037, $amount: 20%);
             outline: 1px solid #5e2195;
         }
     }
@@ -150,10 +156,10 @@ main{
             margin-top: 2rem;
             transition: all .5s ease-in-out;
             &:hover{
-                background-color: darken($color: #1a2037, $amount: 10);
+                background-color: darken($color: #1a2037, $amount: 10%);
             }
             &:focus{
-                background-color: darken($color: #1a2037, $amount: 20);
+                background-color: darken($color: #1a2037, $amount: 20%);
                 outline: 1px solid #5e2195;
             }
         }

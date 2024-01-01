@@ -31,6 +31,7 @@
                                 <div class="content" id="down">
                                     <p id="Cart"><a class="" href="{{ url('/dashboard') }}">Profile</a></p>
                                     <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
                                         <p onclick="event.preventDefault();                     this.closest('form').submit();"><a href="route('logout')" class="">Log Out</a></p>
                                     </form>
                                 </div>
