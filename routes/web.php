@@ -25,6 +25,8 @@ Route::POST('/create', [App\Http\Controllers\ProductController::class, 'store'])
 Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->middleware(['auth', 'verified']);
 
 Route::post('/add/{id}', [App\Http\Controllers\CartController::class, 'create'])->middleware(['auth', 'verified']);
+Route::post('/reduce/{id}', [App\Http\Controllers\CartController::class, 'reduce'])->middleware(['auth', 'verified']);
+Route::post('/delete/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->middleware(['auth', 'verified']);
 
 Route::get('/dashboard', function(){return view('dashboard');})->middleware(['auth', 'verified'])->name('dashboard');
 

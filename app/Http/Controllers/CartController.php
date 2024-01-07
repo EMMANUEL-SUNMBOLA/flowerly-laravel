@@ -11,34 +11,161 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class CartController extends Controller
 {
     public function index(){
-        $user = Auth::user();
+        $userCart = Auth::user()->cart;
         $price = 0;
-        foreach($user->cart as $cart){
-            $price += $cart['price'];
+        if(!empty($userCart)){
+            foreach($userCart as $item){
+                $price += $item['price'];
+            }
+            return view('cart', ["carts" => $userCart, "price" => $price]);
+        }else{
+            // return redirect()->back()->with('err', " \tCart is empty add items ");
+            return view('cart');
         }
-        return view('cart', ["carts" => $user->cart, "price" => $price]);
+    }
+    //
+    public function cave($id)    {
+        $product = Product::findOrFail($id);
+    
+        $userCart = Auth::user()->cart ?? []; // Handle empty cart for new users
+    
+        if (!empty($userCart)) {
+            foreach ($userCart as &$cartItem) {
+                if ($id == $cartItem['id']) {
+                    $cartItem['ammount']++;
+                    Auth::user()->cart = $userCart; // Update cart before saving
+                    Auth::user()->save();
+                    return redirect()->back()->with('success', 'Item quantity updated');
+                    break; // Exit the loop as item is found and updated
+                }
+            }
+        }
+    
+        // Item not in cart, add it
+        $userCart[] = [
+            'id' => $product->id,
+            'price' => $product->price,
+            'img' => $product->url,
+            'name' => $product->name,
+            'details' => $product->details,
+            'instock' => $product->instock,
+            'ammount' => 1
+        ];
+    
+        Auth::user()->cart = $userCart;
+        Auth::user()->save();
+    
+        return redirect()->back()->with('success', 'Item added to cart');
     }
     //
     public function create($id){
         $product = Product::findOrFail($id);
-        // $user->cart = $product;
-        // $user -> save();
-
-        $user = Auth::user();
-        if($product && $user){
-            error_log($product->price);
-            $cart = $user->cart;
-            //I had to do add the contents individually cos i had tons of issues when I tried to add the entire product .... the easier route is probably the better route.
-            $cart[] = ['id' => "$product->id",
-                       'price' => "$product->price", 
-                       'img' => "$product->url", 
-                       'name' => "$product->name", 
-                       'details' => "$product->details", 
-                       'instock' => "$product->instock"
+        $userCart = Auth::user()->cart ?? [];
+        $itemInCart = false;
+        //php shorthand to check if somthing is empty, if so it makes it an mpty array
+        if(!empty($userCart)){
+                foreach($userCart as  &$cartItem){
+                    if($id == $cartItem['id']){
+                        $cartItem['ammount']++; #after increment you still have to reinitialize, IDK it sha works
+                        $cartItem['price'] = $product->price * $cartItem['ammount'];
+                        Auth::user()->cart = $userCart;
+                        Auth::user()->save();
+                        $itemInCart = true;
+                        return redirect()->back()->with('success', "Item added to cart !");
+                        break;
+                    }
+                }
+                //I had to do add the contents individually cos i had tons of issues when I tried to add the entire product .... the easier route is probably the better route.
+                if(!$itemInCart){
+                    $userCart[] = [
+                        'id' => "$product->id",
+                        'price' => "$product->price", 
+                        'img' => "$product->url", 
+                        'name' => "$product->name", 
+                        'details' => "$product->details", 
+                        'instock' => "$product->instock",
+                        'ammount' => 1
                     ];
-            $user->cart = $cart;
-            $user->save();
-            return redirect('/');
+                    Auth::user()->cart = $userCart;
+                    Auth::user()->save();
+                    //this returns users back to the page they came from
+                    return redirect()->back()->with('success', "Added Successfuly");
+                }
+            }
+                $userCart[] = [
+                    'id' => "$product->id",
+                    'price' => "$product->price", 
+                    'img' => "$product->url", 
+                    'name' => "$product->name", 
+                    'details' => "$product->details", 
+                    'instock' => "$product->instock",
+                    'ammount' => 1
+                ];
+            Auth::user()->cart = $userCart;
+            Auth::user()->save();
+            //this returns users back to the page they came from
+            return redirect()->back()->with('success', "Item added to cart !");
+    }
+    //
+    public function reduce($id){
+        $product = Product::findOrFail($id);
+        $userCart = Auth::user()->cart ?? [];
+        //php shorthand to check if somthing is empty, if so it makes it an mpty array
+            if(!empty($userCart)){
+                foreach($userCart as  &$cartItem){
+                    if($id == $cartItem['id']){
+                        if($cartItem['ammount'] >= 1){
+                            $cartItem['ammount']--; #after increment you still have to reinitialize, IDK it sha works
+                            $cartItem['price'] = $product->price * $cartItem['ammount'];
+                            Auth::user()->cart = $userCart;
+                            Auth::user()->save();
+                            return redirect()->back();
+                            break;
+                        }
+                    }
+                }
+            }
+    }
+    //me
+    public function destroyer($id){
+        $product = Product::findOrFail($id);
+        $userCart = Auth::user()->cart ?? [];
+
+        if(!empty($userCart) && $product){
+            foreach($userCart as $key =>  &$cartItem){
+                if($id == $cartItem['id']){
+                    $product -> delete()->cart($cartItem);
+                    return redirect()->back()->with('success', "item found successfuly");
+                    break;
+                }else{
+                    return redirect()->back()->with('err', "Item not found in cart");
+                }
+            }
+        }else{
+            return redirect()->back()->with('err', "cart is empty");
         }
     }
+
+    public function destroy($id)
+    {
+        
+        $userCart = Auth::user()->cart ?? []; // Get user's cart (initially as an array)
+        if (!empty($userCart)) {
+            foreach ($userCart as $key => &$cartItem) {
+                if ($id == $cartItem['id']) {
+                    //after hours of trial , this was the only method that worked OMO!!!! fuck 
+                    $cartItem = [];
+                    Auth::user()->cart = $userCart;
+                    Auth::user()->save();
+    
+                    return redirect()->back()->with('success', 'Item removed successfully');
+                }
+            }
+    
+            return redirect()->back()->with('err', 'Item not found in cart');
+        } else {
+            return redirect()->back()->with('err', 'Cart is empty');
+        }
+    }
+    
 }
