@@ -1,4 +1,5 @@
-document.querySelector('#triggerDown').addEventListener("click", ()=>{
+document.querySelector('#triggerDown')
+.addEventListener("click", ()=>{
   if(document.querySelector('#down').style.display == 'flex'){
     document.querySelector('#down').style.display = 'none';
   }else{
@@ -13,4 +14,6 @@ let textContainer = document.querySelector("h1")
   // Start the animation after a delay
   setTimeout(() => {
     textContainer.style.animationPlayState = "running";
-  }, 1); // Adjust the delay as needed
+  }, 1); // Adjust the nsoledelay as needed
+
+  console.log("hello wrld")

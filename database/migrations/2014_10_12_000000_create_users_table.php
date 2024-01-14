@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean(column: 'is_admin')->default(value: false);
             $table->json("cart")->nullable();
         });
     }

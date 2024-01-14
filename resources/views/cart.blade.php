@@ -25,6 +25,7 @@
         <div class="container">
             @if(isset($carts))
             @foreach($carts as $key => $cart)
+            @if(!empty($cart))
                 <div>
                     <div class="image">
                         <img src="{{$cart['img']}}" alt="">
@@ -48,7 +49,7 @@
                                     <button class="addBtn"><i class="fa-solid fa-add"></i></button>
                                 </form>
                                 <input type="text" class="inpt" value="{{ $cart['ammount'] }}">
-                                <form action="/delete/{{ $cart['id'] }}" method="post">
+                                <form action="/reduce/{{ $cart['id'] }}" method="post">
                                     @csrf
                                     <button class="subBtn"><i class="fa-solid fa-minus"></i></button>
                                 </form>
@@ -62,6 +63,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             @endforeach
             @endif
         </div>

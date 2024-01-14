@@ -1,27 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-class CartController extends Controller
-{
+
+
+class CartController extends Controller{
+    // 
     public function index(){
         $userCart = Auth::user()->cart;
         $price = 0;
         if(!empty($userCart)){
-            foreach($userCart as $item){
-                $price += $item['price'];
+            foreach($userCart as $cartItem){
+                if(!empty($cartItem)){
+                    $price += $cartItem['price'];
+                    error_log($price);
+                }
             }
             return view('cart', ["carts" => $userCart, "price" => $price]);
-        }else{
-            // return redirect()->back()->with('err', " \tCart is empty add items ");
-            return view('cart');
         }
+        return view('cart', ["carts" => $userCart, "price" => $price]);
     }
     //
     public function cave($id)    {
@@ -65,7 +67,7 @@ class CartController extends Controller
         //php shorthand to check if somthing is empty, if so it makes it an mpty array
         if(!empty($userCart)){
                 foreach($userCart as  &$cartItem){
-                    if($id == $cartItem['id']){
+                    if((!empty($cartItem)) && ($id == $cartItem['id'])){
                         $cartItem['ammount']++; #after increment you still have to reinitialize, IDK it sha works
                         $cartItem['price'] = $product->price * $cartItem['ammount'];
                         Auth::user()->cart = $userCart;
@@ -114,7 +116,7 @@ class CartController extends Controller
             if(!empty($userCart)){
                 foreach($userCart as  &$cartItem){
                     if($id == $cartItem['id']){
-                        if($cartItem['ammount'] >= 1){
+                        if($cartItem['ammount'] > 1){
                             $cartItem['ammount']--; #after increment you still have to reinitialize, IDK it sha works
                             $cartItem['price'] = $product->price * $cartItem['ammount'];
                             Auth::user()->cart = $userCart;
@@ -126,46 +128,24 @@ class CartController extends Controller
                 }
             }
     }
-    //me
-    public function destroyer($id){
-        $product = Product::findOrFail($id);
-        $userCart = Auth::user()->cart ?? [];
-
-        if(!empty($userCart) && $product){
-            foreach($userCart as $key =>  &$cartItem){
-                if($id == $cartItem['id']){
-                    $product -> delete()->cart($cartItem);
-                    return redirect()->back()->with('success', "item found successfuly");
-                    break;
-                }else{
-                    return redirect()->back()->with('err', "Item not found in cart");
-                }
-            }
-        }else{
-            return redirect()->back()->with('err', "cart is empty");
-        }
-    }
-
-    public function destroy($id)
-    {
-        
+    //
+    public function destroy($id){
         $userCart = Auth::user()->cart ?? []; // Get user's cart (initially as an array)
         if (!empty($userCart)) {
             foreach ($userCart as $key => &$cartItem) {
-                if ($id == $cartItem['id']) {
-                    //after hours of trial , this was the only method that worked OMO!!!! fuck 
-                    $cartItem = [];
+                if ((!empty($cartItem)) && ($id == $cartItem['id'])) {
+                    //after hours of trial , this was the only method that worked !O!M!O! fuck 
+                    unset($userCart[$key]);
                     Auth::user()->cart = $userCart;
                     Auth::user()->save();
     
                     return redirect()->back()->with('success', 'Item removed successfully');
                 }
             }
-    
             return redirect()->back()->with('err', 'Item not found in cart');
         } else {
             return redirect()->back()->with('err', 'Cart is empty');
         }
     }
-    
+    // 
 }

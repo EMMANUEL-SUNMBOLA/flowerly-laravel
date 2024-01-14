@@ -218,4 +218,13 @@ main{
             }
         }
     }
+    .cart{
+        .total{
+            display: none;
+        }
+        .container{
+            width: 80%;
+            gap: 2.3rem;
+        }
+    }
 }
